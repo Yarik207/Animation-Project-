@@ -1,0 +1,62 @@
+
+--------------------------------------------------
+TXLib предупреждает:
+
+Программа: D:\Ярослав\Ярослав\учёба\c++\animation\bin\Debug\animation.exe,
+
+ВНЕЗАПНО: Нарушение доступа к памяти.
+
+#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x77CCFD18 в функции RtlGetCurrentServiceSessionId(). Попытка прочесть данные по адресу 0x80000100 в модуле C:\Windows\SYSTEM32\ntdll.dll. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+#2: TXLib [Ver: 00173a, Rev: 171, Date: 2021-10-03 23:49:44 +0400], Instance: 0x005092FC (32-bit), Flags: CMdrE0, Thread: 0x2548 (Canvas), GetLastError(): 6 (Неверный дескриптор). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x77CCFD18 in C:\Windows\SYSTEM32\ntdll.dll: RtlGetCurrentServiceSessionId()
+# 1 0x77CCFA0D in C:\Windows\SYSTEM32\ntdll.dll: RtlFreeHeap()
+# 2 0x770F7065 in C:\Windows\System32\msvcrt.dll: free()
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in bool {anonymous}::TX::_txSymGetFromAddr(void*, {anonymous}::TX::Win32::SYMBOL_INFO**, {anonymous}::TX::Win32::IMAGEHLP_LINE64**, const char**, const char**, int) at c:\program files\codeblocks\mingw\include\txlib.h (12287):
+
+  12285: $   if (!addr && process)
+  12286:         {
+=>12287: $       _TX_CALL (LIB_::SymCleanup, (process));
+  12288: 
+  12289: $       process = NULL;
+
+# 1 in void {anonymous}::TX::_txCleanup() at c:\program files\codeblocks\mingw\include\txlib.h (9168):
+
+   9166: $   _flushall();
+   9167: 
+=> 9168: $   _txSymGetFromAddr (NULL);
+   9169: 
+   9170:     // That's all, folks
+
+# 2 in unsigned int {anonymous}::TX::_txCanvas_ThreadProc(void*) at c:\program files\codeblocks\mingw\include\txlib.h (9815):
+
+   9813: $   if (_txRunning && _txMain)         // Main window is destroyed but main() is still running.
+   9814:         {                              // No chances for good termination, so use exit().
+=> 9815: $       _txCleanup();
+   9816: $       ::exit ((int) msg.wParam);     //-V202 //-V2509 //-V2014
+   9817:         }
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 171, Date: 2021-10-03 23:49:44 +0400]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	c:\program files\codeblocks\mingw\include\txlib.h
+Compiled:	Dec  5 2021 14:17:28, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Dec 05 2021 14:17:36
+
+Run file:	D:\Ярослав\Ярослав\учёба\c++\animation\bin\Debug\animation.exe
+Directory:	D:\Ярослав\Ярослав\учёба\c++\animation
+
+--------------------------------------------------
